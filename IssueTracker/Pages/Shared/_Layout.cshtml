@@ -1,0 +1,26 @@
+@*
+  Shared layout
+*@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@ViewData["Title"] - Web Direct Brands Issue Tracker</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+  <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" asp-page="/Index">Web Direct Brands Issue Tracker</a>
+    <a class="btn btn-success" asp-page="/Issues/Create">+ New Issue</a>
+  </div>
+</nav>
+<main class="container my-4">
+  @RenderBody()
+</main>
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

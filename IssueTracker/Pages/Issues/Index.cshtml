@@ -1,0 +1,113 @@
+@page
+@model IssueTracker.Pages.Issues.IndexModel
+@{
+    ViewData["Title"] = "Issues";
+}
+<form method="get" class="row g-2 align-items-end mb-3">
+  <div class="col-md-2">
+    <label class="form-label">Status</label>
+    <select class="form-select" name="status">
+      <option value="">All</option>
+      @foreach (var s in Model.Statuses) {
+        <option value="@s" selected="@(Model.Filters.Status==s ? "selected" : null)">@s</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Priority</label>
+    <select class="form-select" name="priority">
+      <option value="">All</option>
+      @foreach (var p in Model.Priorities) {
+        <option value="@p" selected="@(Model.Filters.Priority==p ? "selected" : null)">@p</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Assignee</label>
+    <input class="form-control" type="text" name="assignee" value="@Model.Filters.Assignee" />
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Search</label>
+    <input class="form-control" type="text" name="search" value="@Model.Filters.Search" />
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Sort</label>
+    <select class="form-select" name="sort">
+      @foreach (var (value,label) in Model.SortOptions) {
+        <option value="@value" selected="@(Model.Filters.Sort==value ? "selected" : null)">@label</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-1 d-grid">
+    <button class="btn btn-primary" type="submit">Filter</button>
+  </div>
+</form>
+
+@* <div class="card mb-3">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data" action="/import" class="d-flex gap-2">
+      <input class="form-control" type="file" name="file" accept=".xlsx,.xls" />
+      <button class="btn btn-outline-secondary" type="submit">Import Excel</button>
+    </form>
+    <small class="text-muted">Upload your spreadsheet to append issues.</small>
+  </div>
+</div> *@
+
+<div class="table-responsive">
+<table class="table table-striped align-middle">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Reporter</th>
+      <th>URL</th>
+      <th>Type</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Assigned</th>
+      <th>Screenshot</th>
+    </tr>
+  </thead>
+  <tbody>
+    @if (Model.Issues.Count == 0) {
+        <tr><td colspan="9" class="text-muted">No issues found.</td></tr>
+    } else {
+      @foreach (var i in Model.Issues) {
+        <tr>
+          <td>@i.Id</td>
+          <td>@(i.DateReported?.ToString("yyyy-MM-dd"))</td>
+          <td>@i.ReporterName</td>
+          <td><a href="@i.WebsiteUrl" target="_blank" rel="noopener">@i.WebsiteUrl</a></td>
+          <td>@(i.IssueTypeRef?.Name ?? i.IssueType)</td>
+          <td><span class="badge bg-priority-@i.IssuePriority.ToLower()">@i.IssuePriority</span></td>
+          <td>@i.Status</td>
+          <td>@i.AssignedTo</td>
+          <td class="text-nowrap">
+  @if (!string.IsNullOrWhiteSpace(i.Screenshot))
+  {
+      <a class="btn btn-sm btn-outline-primary"
+         href="@i.Screenshot"
+         target="_blank" rel="noopener">
+         View
+      </a>
+  }
+  else
+  {
+      <button class="btn btn-sm btn-outline-secondary" disabled>None</button>
+  }
+</td>
+          <td class="text-nowrap">
+            <a class="btn btn-sm btn-outline-secondary" asp-page="Edit" asp-route-id="@i.Id">Edit</a>
+            <form method="post" asp-page-handler="Resolve" asp-route-id="@i.Id" class="d-inline">
+              <button class="btn btn-sm btn-success" type="submit" disabled="@(i.Status == "Resolved" ? "disabled" : null)">Resolve</button>
+            </form>
+            @* <form method="post" asp-page-handler="Delete" asp-route-id="@i.Id" class="d-inline" onsubmit="return confirm('Delete this issue?')">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+            </form> *@
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
+</div>

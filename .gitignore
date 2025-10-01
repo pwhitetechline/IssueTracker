@@ -1,0 +1,22 @@
+# .NET / Visual Studio
+bin/
+obj/
+publish/
+.vscode/
+.vs/
+
+# User secrets
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# Uploads (screenshots)
+wwwroot/uploads/
+
+# Sensitive config
+appsettings.*.json
+!appsettings.Development.json   # optional: keep dev config checked in
+
+*.md
