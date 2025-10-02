@@ -13,6 +13,11 @@ IssueTracker/wwwroot/uploads/
 # Secrets in prod (keep out of git)
 appsettings.Production.json
 appsettings.Staging.json
+appsettings.Development.json
+appsettings.json
+
+# Secrets in staging (keep out of git)
+appsettings.Staging.json
 
 # Optional: if dev file contains NO secrets, you can keep it tracked.
 # If it has secrets, ignore it too:
