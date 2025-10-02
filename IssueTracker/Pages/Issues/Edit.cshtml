@@ -3,44 +3,144 @@
 @{
     ViewData["Title"] = "Edit Issue";
 }
-<h3 class="mb-3">Edit Issue #@Model.Issue.Id</h3>
-<form method="post" enctype="multipart/form-data">
-<div asp-validation-summary="All" class="text-danger mb-2"></div>
-  <div class="row g-3">
-    <div class="col-md-3"><label class="form-label">Date Reported</label><input asp-for="Issue.DateReported" class="form-control" type="date"/></div>
-    <div class="col-md-3"><label class="form-label">Reporter Name</label><input asp-for="Issue.ReporterName" class="form-control"/></div>
-    <div class="col-md-6"><label class="form-label">Website URL</label><input asp-for="Issue.WebsiteUrl" class="form-control"/></div>
-    <div class="col-md-4">
-  <label class="form-label">Issue Type</label>
-  <select asp-for="Issue.IssueTypeId"
-          class="form-select"
-          asp-items="Model.IssueTypeOptions">
-  </select>
-  <span class="text-danger" asp-validation-for="Issue.IssueTypeId"></span>
-</div>
-    <div class="col-md-4"><label class="form-label">Issue Priority</label>
-      <select asp-for="Issue.IssuePriority" class="form-select">
-        <option>Low</option><option>Medium</option><option>High</option><option>Critical</option>
-      </select>
+
+<h2 class="mb-3">Edit Issue</h2>
+
+<form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <!-- SECTION A: Report details -->
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">Report details</div>
+        <div class="card-body">
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label asp-for="Issue.DateReported" class="form-label"></label>
+                    <input asp-for="Issue.DateReported" class="form-control" type="date" />
+                    <span asp-validation-for="Issue.DateReported" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Issue.ReporterName" class="form-label"></label>
+                    <input asp-for="Issue.ReporterName" class="form-control" />
+                    <span asp-validation-for="Issue.ReporterName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-5">
+                    <label asp-for="Issue.WebsiteUrl" class="form-label"></label>
+                    <input asp-for="Issue.WebsiteUrl" class="form-control" />
+                    <span class="form-text">Optional — use when it’s a website issue.</span>
+                    <span asp-validation-for="Issue.WebsiteUrl" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Issue Type</label>
+                    <select asp-for="Issue.IssueTypeId"
+                            asp-items="Model.IssueTypeOptions"
+                            class="form-select"></select>
+                    <span asp-validation-for="Issue.IssueTypeId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Screenshot</label>
+
+                    @* show current screenshot if present *@
+                    @if (!string.IsNullOrWhiteSpace(Model.Issue.Screenshot))
+                    {
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="@Model.Issue.Screenshot" target="_blank" rel="noopener">
+                                View current
+                            </a>
+                            <span class="text-muted small">Upload a new file to replace.</span>
+                        </div>
+                    }
+
+                    <input type="file" name="screenshot" class="form-control" />
+                    <span class="form-text">JPG/PNG only, max 5 MB.</span>
+                    <span asp-validation-for="Issue.Screenshot" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Issue.IssueDescription" class="form-label"></label>
+                    <textarea asp-for="Issue.IssueDescription" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Issue.IssueDescription" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="col-md-4"><label class="form-label">Status</label>
-      <select asp-for="Issue.Status" class="form-select">
-        <option>Open</option><option>In Progress</option><option>Blocked</option><option>Resolved</option><option>Closed</option>
-      </select>
+
+    <!-- SECTION B: Assignment & resolution -->
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">Assignment & resolution</div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label asp-for="Issue.AssignedTo" class="form-label"></label>
+                    <input asp-for="Issue.AssignedTo" class="form-control" />
+                    <span asp-validation-for="Issue.AssignedTo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Issue.IssuePriority" class="form-label"></label>
+                    <select asp-for="Issue.IssuePriority" class="form-select">
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                        <option>Critical</option>
+                    </select>
+                    <span asp-validation-for="Issue.IssuePriority" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Issue.Status" class="form-label"></label>
+                    <select asp-for="Issue.Status" class="form-select" id="statusSelect">
+                        <option>Open</option>
+                        <option>In Progress</option>
+                        <option>Blocked</option>
+                        <option>Resolved</option>
+                        <option>Archived</option>
+                    </select>
+                    <span asp-validation-for="Issue.Status" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Issue.DateResolved" class="form-label"></label>
+                    <input asp-for="Issue.DateResolved" class="form-control" type="date" id="dateResolved" />
+                    <span asp-validation-for="Issue.DateResolved" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Issue.ResolutionNotice" class="form-label"></label>
+                    <textarea asp-for="Issue.ResolutionNotice" class="form-control" rows="3" id="resolutionNotice"></textarea>
+                    <span asp-validation-for="Issue.ResolutionNotice" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6"><label class="form-label">Assigned To</label><input asp-for="Issue.AssignedTo" class="form-control"/></div>
-    <div class="col-md-6"><label class="form-label">Screenshot</label><input type="file" name="screenshot" class="form-control" /><div class="form-text">Current: @Model.Issue.Screenshot</div></div>
-    <span class="text-danger" asp-validation-for="Issue.Screenshot"></span>
-    <div class="col-12"><label class="form-label">Issue Description</label><textarea asp-for="Issue.IssueDescription" class="form-control" rows="4"></textarea></div>
-    <div class="col-md-3"><label class="form-label">Date Resolved</label><input asp-for="Issue.DateResolved" class="form-control" type="date"/></div>
-    <div class="col-12"><label class="form-label">Resolution Notice</label><textarea asp-for="Issue.ResolutionNotice" class="form-control" rows="3"></textarea></div>
-  </div>
-  <div class="mt-3 d-flex gap-2">
-    <button class="btn btn-primary" type="submit">Save</button>
-    <a class="btn btn-secondary" asp-page="Index">Cancel</a>
-  </div>
+
+    <div class="d-flex gap-2">
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
 </form>
 
 @section Scripts {
-  <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Enable resolution fields only when Status = Resolved
+        const statusEl = document.getElementById('statusSelect');
+        const dateResolvedEl = document.getElementById('dateResolved');
+        const resNoticeEl = document.getElementById('resolutionNotice');
+
+        function toggleResolution() {
+            const resolved = statusEl?.value === 'Resolved';
+            dateResolvedEl.disabled = !resolved;
+            resNoticeEl.disabled = !resolved;
+        }
+        toggleResolution();
+        statusEl?.addEventListener('change', toggleResolution);
+    </script>
 }
