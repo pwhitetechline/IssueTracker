@@ -97,13 +97,36 @@
                 <button class="btn btn-sm btn-outline-secondary" disabled>None</button>
             } 
           </td>
-        <td class="text-truncate" style="max-width: 380px;">
-          @{
-              var d = i.IssueDescription ?? "";
-              var preview = d.Length > 120 ? d.Substring(0, 120) + "…" : d;
-          }
-          @preview
-        </td>
+        <td>
+  @{
+      var d = i.IssueDescription ?? string.Empty;
+      var preview = d.Length > 120 ? d[..120] + "…" : d;
+  }
+  <span>@preview</span>
+  @if (d.Length > 120)
+  {
+      <button type="button" class="btn btn-link btn-sm p-0 ms-1"
+              data-bs-toggle="modal" data-bs-target="#desc-@i.Id">
+          View
+      </button>
+
+      <div class="modal fade" id="desc-@i.Id" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+       style="--bs-modal-width: 900px;"> <!-- wider if you want -->
+    <div class="modal-content" style="max-height: 90vh;">  <!-- taller -->
+      <div class="modal-header">
+        <h5 class="modal-title">Issue Description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body overflow-auto">  <!-- scrolls if needed -->
+        <pre class="mb-0" style="white-space:pre-wrap">@d</pre>
+      </div>
+    </div>
+  </div>
+</div>
+  }
+</td>
+
 
           <td class="text-nowrap">
             <a class="btn btn-sm btn-outline-secondary" asp-page="Edit" asp-route-id="@i.Id">Edit</a>
