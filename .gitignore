@@ -1,22 +1,22 @@
-# .NET / Visual Studio
+# Build artifacts
 bin/
 obj/
 publish/
-.vscode/
 .vs/
-
-# User secrets
-secrets.json
-
-# Logs
+.vscode/
 logs/
 *.log
 
-# Uploads (screenshots)
-wwwroot/uploads/
+# Site uploads (path from repo root)
+IssueTracker/wwwroot/uploads/
 
-# Sensitive config
-appsettings.*.json
-!appsettings.Development.json   # optional: keep dev config checked in
+# Secrets in prod (keep out of git)
+appsettings.Production.json
+appsettings.Staging.json
+
+# Optional: if dev file contains NO secrets, you can keep it tracked.
+# If it has secrets, ignore it too:
+# appsettings.Development.json
+
 
 *.md
