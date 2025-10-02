@@ -38,7 +38,7 @@
   <table class="table table-striped align-middle">
     <thead>
       <tr>
-        <th>ID</th>
+        @* <th>ID</th> *@
         <th>Date</th>
         <th>Reporter</th>
         <th>URL</th>
@@ -46,7 +46,7 @@
         <th>Priority</th>
         <th>Assigned</th>
         <th>Screenshot</th>
-        <th></th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>
@@ -59,7 +59,7 @@
         @foreach (var i in Model.RecentOpen)
         {
           <tr>
-            <td>@i.Id</td>
+            @* <td>@i.Id</td> *@
             <td>@(i.DateReported?.ToString("yyyy-MM-dd"))</td>
             <td>@i.ReporterName</td>
             <td><a href="@i.WebsiteUrl" target="_blank" rel="noopener">@i.WebsiteUrl</a></td>
@@ -80,6 +80,14 @@
       <button class="btn btn-sm btn-outline-secondary" disabled>None</button>
   }
 </td>
+<td class="text-truncate" style="max-width: 380px;">
+  @{
+      var d = i.IssueDescription ?? "";
+      var preview = d.Length > 120 ? d.Substring(0, 120) + "…" : d;
+  }
+  @preview
+</td>
+
             <td class="text-nowrap">
               <a class="btn btn-sm btn-outline-secondary" asp-page="/Issues/Edit" asp-route-id="@i.Id">Edit</a>
             </td>

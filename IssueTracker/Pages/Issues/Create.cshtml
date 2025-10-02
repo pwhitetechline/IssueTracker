@@ -7,7 +7,7 @@
 <form method="post" enctype="multipart/form-data">
 <div asp-validation-summary="All" class="text-danger mb-2"></div>
   <div class="row g-3">
-    <div class="col-md-3"><label class="form-label">Date Reported</label><input asp-for="Issue.DateReported" class="form-control" type="date"/></div>
+    @* <div class="col-md-3"><label class="form-label">Date Reported</label><input asp-for="Issue.DateReported" class="form-control" type="date"/></div> *@
     <div class="col-md-3"><label class="form-label">Reporter Name</label><input asp-for="Issue.ReporterName" class="form-control"/></div>
     <div class="col-md-6"><label class="form-label">Website URL</label><input asp-for="Issue.WebsiteUrl" class="form-control"/></div>
     <div class="col-md-4">

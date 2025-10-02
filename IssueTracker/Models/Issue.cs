@@ -13,10 +13,9 @@ public class Issue
     [Required, StringLength(120)]
     public string ReporterName { get; set; } = "";
 
-    [Required, StringLength(500)]
+    [StringLength(500)]
     [Display(Name="Website URL")]
-    [DataType(DataType.Url)]
-    public string WebsiteUrl { get; set; } = "";
+    public string? WebsiteUrl { get; set; } = "";
 
     [Required, StringLength(120)]
     [Display(Name="Issue Type")]

@@ -3,18 +3,22 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Services
 builder.Services.AddRazorPages();
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.Configure<UploadOptions>(builder.Configuration.GetSection("Uploads"));
 builder.Services.AddSingleton<FileStorageService>();
+
 builder.Services.Configure<NotificationOptions>(builder.Configuration.GetSection("Notifications"));
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<NotificationService>();
 
 var app = builder.Build();
 
+// Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -22,19 +26,26 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// CSP (strict, local assets only)
 app.Use(async (ctx, next) =>
 {
     ctx.Response.Headers["Content-Security-Policy"] =
-        "default-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'";
+        "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'";
     await next();
 });
+
 app.UseStaticFiles();
 app.UseRouting();
 app.MapRazorPages();
+
+// Optional DB create/seed
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    DbSeeder.Seed(db);
+    // Ensure DB exists; replace with migrations in real prod
+    db.Database.EnsureCreated();
+    // DbSeeder.Seed(db); // if you have a seeder
 }
 
 app.Run();

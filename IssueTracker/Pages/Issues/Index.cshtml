@@ -57,7 +57,7 @@
 <table class="table table-striped align-middle">
   <thead>
     <tr>
-      <th>ID</th>
+      @* <th>ID</th> *@
       <th>Date</th>
       <th>Reporter</th>
       <th>URL</th>
@@ -66,6 +66,7 @@
       <th>Status</th>
       <th>Assigned</th>
       <th>Screenshot</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
@@ -74,7 +75,7 @@
     } else {
       @foreach (var i in Model.Issues) {
         <tr>
-          <td>@i.Id</td>
+          @* <td>@i.Id</td> *@
           <td>@(i.DateReported?.ToString("yyyy-MM-dd"))</td>
           <td>@i.ReporterName</td>
           <td><a href="@i.WebsiteUrl" target="_blank" rel="noopener">@i.WebsiteUrl</a></td>
@@ -83,19 +84,27 @@
           <td>@i.Status</td>
           <td>@i.AssignedTo</td>
           <td class="text-nowrap">
-  @if (!string.IsNullOrWhiteSpace(i.Screenshot))
-  {
-      <a class="btn btn-sm btn-outline-primary"
-         href="@i.Screenshot"
-         target="_blank" rel="noopener">
-         View
-      </a>
-  }
-  else
-  {
-      <button class="btn btn-sm btn-outline-secondary" disabled>None</button>
-  }
-</td>
+            @if (!string.IsNullOrWhiteSpace(i.Screenshot))
+            {
+                <a class="btn btn-sm btn-outline-primary"
+                  href="@i.Screenshot"
+                  target="_blank" rel="noopener">
+                  View
+                </a>
+            }
+            else
+            {
+                <button class="btn btn-sm btn-outline-secondary" disabled>None</button>
+            } 
+          </td>
+        <td class="text-truncate" style="max-width: 380px;">
+          @{
+              var d = i.IssueDescription ?? "";
+              var preview = d.Length > 120 ? d.Substring(0, 120) + "…" : d;
+          }
+          @preview
+        </td>
+
           <td class="text-nowrap">
             <a class="btn btn-sm btn-outline-secondary" asp-page="Edit" asp-route-id="@i.Id">Edit</a>
             <form method="post" asp-page-handler="Resolve" asp-route-id="@i.Id" class="d-inline">
