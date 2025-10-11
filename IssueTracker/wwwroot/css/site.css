@@ -1,5 +1,50 @@
+/* Web Direct Brands Color Scheme */
+:root {
+    --wdb-white: #ffffff;
+    --wdb-dark-gray: #4a4a4a;
+    --wdb-orange: #ff6633;
+    --wdb-light-blue: #99CDFF;
+    --wdb-dark-green: #2a9d8f;
+}
 
+/* Custom navbar styling */
+.navbar-dark.bg-dark {
+    background-color: var(--wdb-light-blue) !important
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000000 !important;
+}
+
+/* Logo background - white to make it stand out */
+.navbar-brand img {
+    /* background-color: white; */
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+/* Primary buttons - orange */
+.btn-primary, .btn-success {
+    background-color: var(--wdb-dark-green) !important;
+    border-color: var(--wdb-dark-green) !important;
+}
+
+.btn-primary:hover, .btn-success:hover {
+    background-color: #2a9d8f !important;
+    border-color: #2a9d8f !important;
+}
+
+/* Priority badges */
 .badge.bg-priority-critical { background:#7209b7; }
 .badge.bg-priority-high { background:#d00000; }
 .badge.bg-priority-medium { background:#f48c06; }
 .badge.bg-priority-low { background:#2a9d8f; }
+
+/* Card headers - light blue accent */
+.card-header {
+    background-color: var(--wdb-light-blue) !important;
+    color: #333;
+    font-weight: 600;
+}
