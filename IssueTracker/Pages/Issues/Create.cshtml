@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Issue Type</label>
+                    <label asp-for="Issue.IssueTypeId" class="form-label"></label>
                     <span class="text-danger">* (required)</span>
                     <select asp-for="Issue.IssueTypeId"
                             asp-items="Model.IssueTypeOptions"
@@ -44,8 +44,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Screenshot</label>
-                    <input type="file" name="screenshot" class="form-control" />
+                    <label for="screenshot" class="form-label">Screenshot</label>
+                    <input type="file" id="screenshot" name="screenshot" class="form-control" />
                     <span class="form-text">JPG/PNG only, max 5 MB.</span>
                     <span asp-validation-for="Issue.Screenshot" class="text-danger"></span>
                 </div>
@@ -119,18 +119,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        // Optional UX: only enable resolution fields when status is Resolved
-        const statusEl = document.getElementById('statusSelect');
-        const dateResolvedEl = document.getElementById('dateResolved');
-        const resNoticeEl = document.getElementById('resolutionNotice');
-
-        function toggleResolution() {
-            const resolved = statusEl?.value === 'Resolved';
-            dateResolvedEl.disabled = !resolved;
-            resNoticeEl.disabled = !resolved;
-        }
-        toggleResolution();
-        statusEl?.addEventListener('change', toggleResolution);
-    </script>
+    <script src="~/lib/main.js"></script>
+    
 }
