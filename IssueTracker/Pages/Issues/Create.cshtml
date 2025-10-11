@@ -39,7 +39,9 @@
                     <span class="text-danger">* (required)</span>
                     <select asp-for="Issue.IssueTypeId"
                             asp-items="Model.IssueTypeOptions"
-                            class="form-select"></select>
+                            class="form-select">
+                        <option value="">-- Select Issue Type --</option>
+                    </select>
                     <span asp-validation-for="Issue.IssueTypeId" class="text-danger"></span>
                 </div>
 
