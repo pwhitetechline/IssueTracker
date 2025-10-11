@@ -76,7 +76,7 @@
       @foreach (var i in Model.Issues) {
         <tr>
           @* <td>@i.Id</td> *@
-          <td>@(i.DateReported?.ToString("yyyy-MM-dd"))</td>
+          <td class="text-nowrap">@(i.DateReported?.ToString("yyyy-MM-dd"))</td>
           <td>@i.ReporterName</td>
           <td><a href="@i.WebsiteUrl" target="_blank" rel="noopener">@i.WebsiteUrl</a></td>
           <td>@(i.IssueTypeRef?.Name ?? i.IssueType)</td>

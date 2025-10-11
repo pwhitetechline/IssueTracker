@@ -31,7 +31,7 @@ app.UseHttpsRedirection();
 app.Use(async (ctx, next) =>
 {
     ctx.Response.Headers["Content-Security-Policy"] =
-        "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'";
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.webdirectbrands.com; frame-ancestors 'none'; base-uri 'self'";
     await next();
 });
 

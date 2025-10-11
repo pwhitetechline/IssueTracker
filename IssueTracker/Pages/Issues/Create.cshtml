@@ -22,6 +22,7 @@
 
                 <div class="col-md-4">
                     <label asp-for="Issue.ReporterName" class="form-label"></label>
+                    <span class="text-danger">* (required)</span>
                     <input asp-for="Issue.ReporterName" class="form-control" />
                     <span asp-validation-for="Issue.ReporterName" class="text-danger"></span>
                 </div>
@@ -35,6 +36,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Issue Type</label>
+                    <span class="text-danger">* (required)</span>
                     <select asp-for="Issue.IssueTypeId"
                             asp-items="Model.IssueTypeOptions"
                             class="form-select"></select>
@@ -50,6 +52,7 @@
 
                 <div class="col-12">
                     <label asp-for="Issue.IssueDescription" class="form-label"></label>
+                    <span class="text-danger">* (required)</span>
                     <textarea asp-for="Issue.IssueDescription" class="form-control" rows="4"></textarea>
                     <span asp-validation-for="Issue.IssueDescription" class="text-danger"></span>
                 </div>
@@ -70,6 +73,7 @@
 
                 <div class="col-md-4">
                     <label asp-for="Issue.IssuePriority" class="form-label"></label>
+                    <span class="text-danger">* (required)</span>
                     <select asp-for="Issue.IssuePriority" class="form-select">
                         <option>Low</option>
                         <option>Medium</option>
@@ -81,6 +85,7 @@
 
                 <div class="col-md-4">
                     <label asp-for="Issue.Status" class="form-label"></label>
+                    <span class="text-danger">* (required)</span>
                     <select asp-for="Issue.Status" class="form-select" id="statusSelect">
                         <option>Open</option>
                         <option>In Progress</option>

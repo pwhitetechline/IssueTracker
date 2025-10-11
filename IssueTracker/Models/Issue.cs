@@ -46,6 +46,7 @@ public class Issue
     [Display(Name="Resolution Notice")]
     public string? ResolutionNotice { get; set; }
 
+    [Required]
     public int? IssueTypeId { get; set; }
     public IssueType? IssueTypeRef { get; set; }
 }
